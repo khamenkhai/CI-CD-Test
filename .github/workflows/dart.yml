@@ -1,4 +1,4 @@
-name: Dart and Flutter CI/CD
+name: Flutter CI
 
 on:
   push:
@@ -11,30 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      # Set up Dart SDK
-      - uses: dart-lang/setup-dart@latest
-
-      # Install Dart dependencies
-      - name: Install dependencies
-        run: dart pub get
-
-      # Analyze Dart source code
-      - name: Analyze project source
-        run: dart analyze
-
-      # Run Dart tests
-      - name: Run Dart tests
-        run: dart test
-
-      # Set up Flutter
-      - uses: subosito/flutter-action@v2
+      - name: Clone repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.22.2  # Adjust version as needed
-
-      # Install Flutter dependencies
-      - run: flutter pub get
-
-      # Run Flutter tests
-      - run: flutter test
+          flutter-version: 3.22.2
+          
+      - name: Install dependencies
+        run: flutter pub get
+        
+      - name: Analyze project source
+        run: flutter analyze
+        
+      - name: Run tests
+        run: flutter test
+        
+      - name: Build APK
+        run: flutter build apk
+        
+      - name: Build App Bundle
+        run: flutter build appbundle
